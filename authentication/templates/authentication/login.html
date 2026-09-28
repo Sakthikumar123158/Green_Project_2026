@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Greens Technology Student Learning & Career Management Platform login">
+  <title>Greens Technology | Login</title>
+  <link rel="stylesheet" href="{% static 'authentication/css/login.css' %}">
+</head>
+<body>
+  <main class="login-page">
+    <section class="branding-section" aria-label="Greens Technology introduction">
+      <div class="decor decor-one" aria-hidden="true"></div>
+      <div class="decor decor-two" aria-hidden="true"></div>
+
+      <header class="brand-header">
+        <a class="brand" href="#" aria-label="Greens Technology home">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="leaf leaf-a"></span>
+            <span class="leaf leaf-b"></span>
+            <span class="leaf leaf-c"></span>
+          </span>
+          <span class="brand-name"><strong>GREENS</strong><span>TECHNOLOGY</span></span>
+        </a>
+
+        <div class="top-tagline" aria-label="Learn Build Grow">
+          <span>LEARN</span><b>·</b><span>BUILD</span><b>·</b><strong>GROW</strong>
+          <i></i>
+        </div>
+      </header>
+
+      <div class="hero-copy">
+        <h1>Empowering<br><span>Your Future</span></h1>
+        <p class="hero-subtitle">Learn. Practice. Track. Grow.</p>
+        <p class="hero-description">
+          A one-stop platform for students and trainers to stay ahead with learning,
+          assessments, attendance, resume building and career opportunities.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-item">
+            <span class="feature-icon">▣</span>
+            <strong>Learn</strong><small>Continuously</small>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">↗</span>
+            <strong>Build</strong><small>Your Skills</small>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">♧</span>
+            <strong>Track</strong><small>Your Progress</small>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">▣</span>
+            <strong>Get</strong><small>Career Ready</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="campus-wrap" aria-hidden="true">
+        <img src="{% static 'authentication/images/campus.jpg' %}" alt="Greens Technology campus">
+        <div class="campus-fade"></div>
+      </div>
+    </section>
+
+    <section class="login-section" aria-label="Login">
+      <div class="login-card">
+        <div class="login-heading">
+          <h2>Welcome Back</h2>
+          <p>Login to access your account</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <fieldset class="role-selector">
+            <legend class="sr-only">Choose account type</legend>
+            <button type="button" class="role-card selected" data-role="student" aria-pressed="true">
+              <span class="role-icon">🎓</span>
+              <span>Student</span>
+            </button>
+            <button type="button" class="role-card" data-role="admin" aria-pressed="false">
+              <span class="role-icon admin-icon">♙</span>
+              <span>Admin</span>
+            </button>
+          </fieldset>
+          <input type="hidden" name="role" id="role" value="student">
+
+          <div class="input-group">
+            <label class="sr-only" for="username">Email or Username</label>
+            <span class="input-icon" aria-hidden="true">✉</span>
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Email / Username" required>
+            <p class="field-error" id="usernameError" role="alert"></p>
+          </div>
+
+          <div class="input-group">
+            <label class="sr-only" for="password">Password</label>
+            <span class="input-icon" aria-hidden="true">♙</span>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password" aria-pressed="false">◉</button>
+            <p class="field-error" id="passwordError" role="alert"></p>
+          </div>
+
+          <div class="remember-row">
+            <label class="remember-label">
+              <input id="rememberMe" name="remember_me" type="checkbox">
+              <span class="custom-check" aria-hidden="true"></span>
+              <span>Remember me</span>
+            </label>
+            <button type="button" class="forgot-password" id="forgotPassword">Forgot password?</button>
+          </div>
+
+          <button class="login-button" id="loginButton" type="submit">
+            <span class="button-text">Login <span aria-hidden="true">→</span></span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+
+          <div class="divider"><span></span><em>or</em><span></span></div>
+
+          <div class="security-box">
+            <div class="shield" aria-hidden="true">✓</div>
+            <div><strong>Secure Access</strong><small>Your data is safe with us.</small></div>
+          </div>
+
+          <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="forgotModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button>
+      <h3 id="forgotTitle">Reset your password</h3>
+      <p>Enter your email address and we'll connect this form to Django password reset later.</p>
+      <label for="resetEmail">Email address</label>
+      <input id="resetEmail" type="email" placeholder="you@example.com">
+      <p class="field-error" id="resetError" role="alert"></p>
+      <button class="login-button modal-submit" id="resetSubmit" type="button">Continue</button>
+    </div>
+  </div>
+
+  <!-- <script src="{% static 'authentication/js/login.js' %}"></script> -->
+</body>
+</html>
