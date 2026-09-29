@@ -72,7 +72,8 @@
           <p>Login to access your account</p>
         </div>
 
-        <form id="loginForm" novalidate>
+        <form id="loginForm" method="POST" action="" novalidate>
+          {% csrf_token %}
           <fieldset class="role-selector">
             <legend class="sr-only">Choose account type</legend>
             <button type="button" class="role-card selected" data-role="student" aria-pressed="true">
@@ -89,7 +90,7 @@
           <div class="input-group">
             <label class="sr-only" for="username">Email or Username</label>
             <span class="input-icon" aria-hidden="true">✉</span>
-            <input id="username" name="username" type="text" autocomplete="username" placeholder="Email / Username" required>
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Phone Number" required>
             <p class="field-error" id="usernameError" role="alert"></p>
           </div>
 
@@ -122,7 +123,9 @@
             <div><strong>Secure Access</strong><small>Your data is safe with us.</small></div>
           </div>
 
-          <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+          <div class="form-message" id="formMessage" role="status" aria-live="polite">
+          {{ message }}
+          </div>
         </form>
       </div>
     </section>
@@ -140,6 +143,6 @@
     </div>
   </div>
 
-  <!-- <script src="{% static 'authentication/js/login.js' %}"></script> -->
+  <script src="{% static 'authentication/js/login.js' %}?v=2"></script>
 </body>
 </html>

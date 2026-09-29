@@ -92,35 +92,27 @@
     rememberMe.checked = true;
   }
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    setMessage('', '');
+  form.addEventListener('submit', function () {
 
-    const validUsername = validateUsername();
-    const validPassword = validatePassword();
-    if (!validUsername || !validPassword) return;
+  const validUsername = validateUsername();
+  const validPassword = validatePassword();
 
-    if (rememberMe.checked) {
-      localStorage.setItem('greensRememberRole', roleInput.value);
-      localStorage.setItem('greensRememberUsername', username.value.trim());
-    } else {
-      localStorage.removeItem('greensRememberRole');
-      localStorage.removeItem('greensRememberUsername');
-    }
+  if (!validUsername || !validPassword) {
+    return;
+  }
 
-    loginButton.disabled = true;
-    loginButton.classList.add('loading');
+  if (rememberMe.checked) {
+    localStorage.setItem('greensRememberRole', roleInput.value);
+    localStorage.setItem('greensRememberUsername', username.value.trim());
+  } else {
+    localStorage.removeItem('greensRememberRole');
+    localStorage.removeItem('greensRememberUsername');
+  }
 
-    // FRONTEND ONLY: replace this simulation with Django authentication.
-    window.setTimeout(() => {
-      loginButton.disabled = false;
-      loginButton.classList.remove('loading');
-      setMessage(
-        `${roleInput.value === 'student' ? 'Student' : 'Admin'} login details are valid. Connect this form to Django authentication next.`,
-        'success'
-      );
-    }, 700);
-  });
+  loginButton.disabled = true;
+  loginButton.classList.add('loading');
+
+});
 
   function openModal() {
     forgotModal.hidden = false;
