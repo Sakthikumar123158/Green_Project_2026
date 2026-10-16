@@ -1,0 +1,1364 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Greens Technology - Resume Generator</title>
+
+    <link rel="stylesheet" href="{% static 'authentication/css/resume.css' %}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+    <span>Greens</span> Technology
+</div>
+
+        <div class="nav-title">Main Menu</div>
+
+       
+<nav class="nav">
+
+    <a href="{% url 'home' %}">
+        <span class="icon">⌂</span> Home
+    </a>
+
+    <a href="{% url 'quiz' %}">
+        <span class="icon">✓</span> Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}">
+        <span class="icon">◷</span> Attendance
+    </a>
+
+    <a href="{% url 'resume' %}" class="active">
+        <span class="icon">▤</span> Resume
+    </a>
+
+    
+    <a href="{% url 'lead_management' %}">
+        <span class="icon">▣</span> Lead Management
+    </a>
+    
+
+</nav>
+
+
+        <div class="nav-title account-title">
+            Account
+        </div>
+
+        <nav class="nav">
+
+            <a href="#" onclick="goPage(event,'Profile')">
+                <span class="icon">●</span>
+                Profile
+            </a>
+
+            <a href="#" onclick="goPage(event,'Settings')">
+                <span class="icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="bottom-nav nav">
+
+            <a href="{% url 'logout' %}" id="logoutLink">
+    <span class="icon">⇥</span>
+    Logout
+</a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="header-left">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div class="search">
+
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search resume sections...">
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <!-- ROLE SWITCH -->
+
+
+
+                <div
+                    class="notification"
+                    onclick="showNotification()">
+
+                    ♧
+
+                    <span class="dot"></span>
+
+                </div>
+
+
+                <div class="profile">
+
+                    <div
+    class="avatar"
+    id="profileAvatar"
+>
+    {{ user_name|slice:":2"|upper }}
+</div>
+
+                    <div>
+
+                        <div
+    class="profile-name"
+    id="profileName"
+>
+    {{ user_name }}
+</div>
+
+<div
+    class="profile-role"
+    id="profileRole"
+>
+    {{ user_role }}
+</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= STUDENT VIEW ================= -->
+
+        <section
+            class="content"
+            id="studentView">
+
+            <h1 class="page-title">
+                Resume Generator
+            </h1>
+
+            <p class="subtitle">
+                Create, customize and optimize your professional resume.
+            </p>
+
+
+            <!-- RESUME LAYOUT -->
+
+            <div class="resume-layout">
+
+                <!-- FORM -->
+
+                <section class="panel form-panel">
+
+                    <div class="steps">
+
+                        <button
+                            class="step active"
+                            onclick="showStep(1)">
+                            1. Personal
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(2)">
+                            2. Education
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(3)">
+                            3. Skills
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(4)">
+                            4. Experience
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(5)">
+                            5. Projects
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(6)">
+                            6. Certifications
+                        </button>
+
+                        <button
+                            class="step"
+                            onclick="showStep(7)">
+                            7. Summary
+                        </button>
+
+                    </div>
+
+
+                    <!-- STEP 1 -->
+
+                    <div
+                        class="step-content"
+                        id="step1">
+
+                        <h2 class="form-title">
+                            Personal Information
+                        </h2>
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Full Name
+                            </label>
+
+                            <input
+                                class="form-input"
+                                id="name"
+                                placeholder="Enter your full name"
+                                oninput="updatePreview()">
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Email
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="email"
+                                    type="email"
+                                    placeholder="example@gmail.com"
+                                    oninput="updatePreview()">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Phone
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="phone"
+                                    placeholder="+91 XXXXX XXXXX"
+                                    oninput="updatePreview()">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Location
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="location"
+                                    placeholder="Chennai, Tamil Nadu"
+                                    oninput="updatePreview()">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    LinkedIn
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="linkedin"
+                                    placeholder="linkedin.com/in/yourname"
+                                    oninput="updatePreview()">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 2 -->
+
+                    <div
+                        class="step-content"
+                        id="step2"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Education
+                        </h2>
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Degree
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="degree"
+                                    placeholder="B.E / B.Tech / B.Sc">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Institution
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="institution"
+                                    placeholder="College Name">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Field / Department
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="field"
+                                    placeholder="Computer Science">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Score / CGPA
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="score"
+                                    placeholder="8.5 CGPA">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Start Year
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="eduStart"
+                                    placeholder="2022">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    End Year
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="eduEnd"
+                                    placeholder="2026">
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="addEducation()">
+
+                            + Add Education
+
+                        </button>
+
+
+                        <div
+                            class="item-list"
+                            id="educationList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 3 -->
+
+                    <div
+                        class="step-content"
+                        id="step3"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Skills
+                        </h2>
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Add Skill
+                            </label>
+
+                            <div class="skill-input-row">
+
+                                <input
+                                    class="form-input"
+                                    id="skillInput"
+                                    placeholder="React, Java, Python...">
+
+                                <button
+                                    class="primary-btn"
+                                    onclick="addSkill()">
+
+                                    Add
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="item-list"
+                            id="skillsList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 4 -->
+
+                    <div
+                        class="step-content"
+                        id="step4"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Experience
+                        </h2>
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Job Role
+                            </label>
+
+                            <input
+                                class="form-input"
+                                id="jobRole"
+                                placeholder="Software Developer Intern">
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Company
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="company"
+                                    placeholder="Company Name">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Location
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="jobLocation"
+                                    placeholder="Chennai">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Start
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="jobStart"
+                                    placeholder="Jun 2025">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    End
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="jobEnd"
+                                    placeholder="Aug 2025">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <textarea
+                                class="form-textarea"
+                                id="jobDescription"
+                                placeholder="Describe your responsibilities and achievements...">
+                            </textarea>
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="addExperience()">
+
+                            + Add Experience
+
+                        </button>
+
+
+                        <div
+                            class="item-list"
+                            id="experienceList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 5 -->
+
+                    <div
+                        class="step-content"
+                        id="step5"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Projects
+                        </h2>
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Project Name
+                            </label>
+
+                            <input
+                                class="form-input"
+                                id="projectName"
+                                placeholder="Student Learning Platform">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Technologies
+                            </label>
+
+                            <input
+                                class="form-input"
+                                id="projectTech"
+                                placeholder="React, JavaScript, CSS">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Project Description
+                            </label>
+
+                            <textarea
+                                class="form-textarea"
+                                id="projectDescription"
+                                placeholder="Describe your project...">
+                            </textarea>
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="addProject()">
+
+                            + Add Project
+
+                        </button>
+
+
+                        <div
+                            class="item-list"
+                            id="projectsList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 6 -->
+
+                    <div
+                        class="step-content"
+                        id="step6"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Certifications
+                        </h2>
+
+                        <div class="two-column">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Certification Name
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="certName"
+                                    placeholder="Java Programming">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+                                    Issuing Organization
+                                </label>
+
+                                <input
+                                    class="form-input"
+                                    id="certIssuer"
+                                    placeholder="Greens Technology">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Date
+                            </label>
+
+                            <input
+                                class="form-input"
+                                id="certDate"
+                                placeholder="2026">
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="addCertification()">
+
+                            + Add Certification
+
+                        </button>
+
+
+                        <div
+                            class="item-list"
+                            id="certificationsList">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 7 -->
+
+                    <div
+                        class="step-content"
+                        id="step7"
+                        style="display:none">
+
+                        <h2 class="form-title">
+                            Professional Summary
+                        </h2>
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Summary
+                            </label>
+
+                            <textarea
+                                class="form-textarea summary-area"
+                                id="summary"
+                                placeholder="Write a short professional summary..."
+                                oninput="updatePreview()">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NAVIGATION -->
+
+                    <div class="form-navigation">
+
+                        <button
+                            class="secondary-btn"
+                            onclick="previousStep()">
+
+                            ← Previous
+
+                        </button>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="nextStep()">
+
+                            Next →
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PREVIEW -->
+
+                <section class="panel preview-panel">
+
+                    <div class="preview-header">
+
+                        <div class="preview-title">
+                            Live Resume Preview
+                        </div>
+
+                        <button
+                            class="secondary-btn"
+                            onclick="window.print()">
+
+                            Print / PDF
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="resume-paper"
+                        id="resumePreview">
+
+                        <div
+                            class="resume-name"
+                            id="previewName">
+
+                            Your Name
+
+                        </div>
+
+
+                        <div
+                            class="resume-contact"
+                            id="previewContact">
+
+                            Email | Phone | Location | LinkedIn
+
+                        </div>
+
+
+                        <hr class="resume-divider">
+
+
+                        <div
+                            class="resume-section"
+                            id="previewSummarySection"
+                            style="display:none">
+
+                            <h3>
+                                PROFESSIONAL SUMMARY
+                            </h3>
+
+                            <p id="previewSummary"></p>
+
+                        </div>
+
+
+                        <div
+                            class="resume-section"
+                            id="previewSkillsSection"
+                            style="display:none">
+
+                            <h3>
+                                SKILLS
+                            </h3>
+
+                            <p id="previewSkills"></p>
+
+                        </div>
+
+
+                        <div
+                            class="resume-section"
+                            id="previewEducationSection"
+                            style="display:none">
+
+                            <h3>
+                                EDUCATION
+                            </h3>
+
+                            <div id="previewEducation"></div>
+
+                        </div>
+
+
+                        <div
+                            class="resume-section"
+                            id="previewExperienceSection"
+                            style="display:none">
+
+                            <h3>
+                                EXPERIENCE
+                            </h3>
+
+                            <div id="previewExperience"></div>
+
+                        </div>
+
+
+                        <div
+                            class="resume-section"
+                            id="previewProjectsSection"
+                            style="display:none">
+
+                            <h3>
+                                PROJECTS
+                            </h3>
+
+                            <div id="previewProjects"></div>
+
+                        </div>
+
+
+                        <div
+                            class="resume-section"
+                            id="previewCertificationsSection"
+                            style="display:none">
+
+                            <h3>
+                                CERTIFICATIONS
+                            </h3>
+
+                            <div id="previewCertifications"></div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- ================= ANALYSIS ================= -->
+
+            <section class="panel analysis">
+
+                <div class="analysis-title">
+                    Resume Optimization
+                </div>
+
+
+                <div class="analysis-box">
+
+                    <div>
+
+                        <label class="form-label">
+                            Job Description
+                        </label>
+
+                        <textarea
+                            class="job-description"
+                            id="jobDescriptionBox"
+                            placeholder="Paste the job description here...">
+                        </textarea>
+
+
+                        <!-- IMPORTANT:
+                             SCORE ONLY CHANGES WHEN THIS BUTTON IS CLICKED -->
+
+                        <button
+                            class="primary-btn analyze-btn"
+                            onclick="analyzeResume()">
+
+                            Analyze Resume
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="score-box">
+
+                        <div class="score-label">
+                            MATCH SCORE
+                        </div>
+
+                        <div
+                            class="score-value"
+                            id="matchScore">
+
+                            0%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACTIONS -->
+
+            <div class="bottom-actions">
+
+                <button
+                    class="secondary-btn"
+                    onclick="saveDraft()">
+
+                    Save Draft
+
+                </button>
+
+
+                <button
+                    class="secondary-btn"
+                    onclick="loadDraft()">
+
+                    Load Draft
+
+                </button>
+
+
+                <button
+                    class="danger-btn clear-btn"
+                    onclick="clearDraft()">
+
+                    Clear Draft
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ADMIN VIEW ================= -->
+
+        <section
+            class="content admin-content"
+            id="adminView"
+            style="display:none">
+
+            <h1 class="page-title">
+                Resume Administration
+            </h1>
+
+            <p class="subtitle">
+                Review and manage student resumes.
+            </p>
+
+
+            <!-- ADMIN STATS -->
+
+            <div class="admin-stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Total Resumes
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalResumes">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Pending Review
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="pendingResumes">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Approved
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="approvedResumes">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Need Update
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="updateResumes">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN TABLE -->
+
+            <section class="panel admin-panel">
+
+                <div class="admin-toolbar">
+
+                    <div>
+
+                        <h2 class="form-title">
+                            Student Resumes
+                        </h2>
+
+                    </div>
+
+
+                    <div class="admin-filters">
+
+                        <input
+                            class="form-input admin-search"
+                            id="adminSearch"
+                            placeholder="Search student...">
+
+
+                        <select
+                            class="form-input status-filter"
+                            id="statusFilter">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="Pending">
+                                Pending
+                            </option>
+
+                            <option value="Approved">
+                                Approved
+                            </option>
+
+                            <option value="Need Update">
+                                Need Update
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="resume-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    Course
+                                </th>
+
+                                <th>
+                                    Updated
+                                </th>
+
+                                <th>
+                                    Score
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="adminTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= ADMIN MODAL ================= -->
+
+<div
+    class="modal-overlay"
+    id="adminModal"
+    style="display:none">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                Resume Review
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeAdminModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="modalBody">
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary-btn"
+                onclick="requestUpdate()">
+
+                Request Update
+
+            </button>
+
+
+            <button
+                class="primary-btn"
+                onclick="approveResume()">
+
+                Approve Resume
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Logout Confirmation Popup -->
+<div id="logoutModal" class="logout-modal" hidden>
+    <div class="logout-box" role="dialog"
+         aria-modal="true" aria-labelledby="logoutTitle">
+        <h2 id="logoutTitle">Confirm Logout</h2>
+        <p>Are you sure you want to log out?</p>
+
+        <div class="logout-actions">
+            <button type="button" id="cancelLogout">Cancel</button>
+            <button type="button" id="confirmLogout">
+                Confirm Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    window.USER_NAME = "{{ user_name|escapejs }}";
+    window.USER_ROLE = "{{ user_role|escapejs }}";
+</script>
+
+<script src="{% static 'authentication/js/resume.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+    const logoutModal = document.getElementById("logoutModal");
+    const cancelLogout = document.getElementById("cancelLogout");
+    const confirmLogout = document.getElementById("confirmLogout");
+
+    if (!logoutLink || !logoutModal || !cancelLogout || !confirmLogout) {
+        return;
+    }
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        logoutModal.hidden = false;
+        cancelLogout.focus();
+    });
+
+    cancelLogout.addEventListener("click", function () {
+        logoutModal.hidden = true;
+        logoutLink.focus();
+    });
+
+    logoutModal.addEventListener("click", function (event) {
+        if (event.target === logoutModal) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+
+    confirmLogout.addEventListener("click", function () {
+        window.location.href = "{% url 'logout' %}";
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !logoutModal.hidden) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+});
+</script>
+
+</body>
+
+</html>

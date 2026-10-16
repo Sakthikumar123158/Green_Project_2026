@@ -1,0 +1,1407 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lead Management | Greens Technology</title>
+
+    <link rel="stylesheet"
+      href="{% static 'authentication/css/lead_management.css' %}">
+</head>
+
+<body>
+
+<div class="lead-app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <!-- <aside class="sidebar">
+
+        <div class="logo-area">
+            <div class="logo">
+                Greens <span>Technology</span>
+            </div>
+        </div>
+
+        
+
+
+
+<nav class="sidebar-nav">
+
+    <a href="{% url 'home' %}" class="nav-item">
+        <span class="nav-icon">⌂</span> Home
+    </a>
+
+    <a href="{% url 'quiz' %}" class="nav-item">
+        <span class="nav-icon">✓</span> Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}" class="nav-item">
+        <span class="nav-icon">◷</span> Attendance
+    </a>
+
+    <a href="{% url 'resume' %}" class="nav-item">
+        <span class="nav-icon">▤</span> Resume
+    </a>
+
+    {% if request.session.user_role|lower == "admin" %}
+    <a href="{% url 'lead_management' %}" class="nav-item active">
+        <span class="nav-icon">▣</span> Lead Management
+    </a>
+    {% endif %}
+
+</nav>
+
+
+
+
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section-title">
+            ACCOUNT
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <button class="nav-item" type="button">
+                <span class="nav-icon">♙</span>
+                Profile
+            </button>
+
+            <button class="nav-item" type="button">
+                <span class="nav-icon">⚙</span>
+                Settings
+            </button>
+
+        </nav>
+
+        <button class="logout-button"
+                type="button"
+                onclick="logoutUser()">
+            <span>⇥</span>
+            Logout
+        </button>
+
+    </aside> -->
+ <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            Greens <span>Technology</span>
+        </div>
+
+
+        <div class="nav-title">
+            Main Menu
+        </div>
+
+
+
+<nav class="nav">
+
+    <a href="{% url 'home' %}">
+        <span class="icon">⌂</span>
+        Home
+    </a>
+
+    <a href="{% url 'quiz' %}">
+        <span class="icon">✓</span>
+        Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}">
+        <span class="icon">◷</span>
+        Attendance
+    </a>
+
+    <a href="{% url 'resume' %}">
+        <span class="icon">▤</span>
+        Resume
+    </a>
+
+    {% if request.session.user_role|lower == "admin" %}
+    <a href="{% url 'lead_management' %}" class="active">
+        <span class="icon">▣</span>
+        Lead Management
+    </a>
+    {% endif %}
+
+</nav>
+
+
+
+        <div
+            class="nav-title"
+            style="margin-top:24px"
+        >
+            Account
+        </div>
+
+
+        <nav class="nav">
+
+            <a
+                href="#"
+                onclick="go('Profile',event)"
+            >
+                <span class="icon">●</span>
+                Profile
+            </a>
+
+
+            <a
+                href="#"
+                onclick="go('Settings',event)"
+            >
+                <span class="icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+        <div class="bottom-nav nav">
+
+            <a href="{% url 'logout' %}" id="logoutLink">
+    <span class="icon">⇥</span>
+    Logout
+</a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- ================= TOP HEADER ================= -->
+
+        <!-- <header class="top-header">
+
+            <div class="global-search">
+
+                <span>⌕</span>
+
+                <input
+                    id="globalSearch"
+                    type="text"
+                    placeholder="Search leads, courses, name, phone..."
+                >
+
+            </div>
+
+            <div class="top-user">
+
+                <button
+                    class="notification-button"
+                    type="button"
+                    onclick="showNotifications()">
+                    ♧
+
+                    <span class="notification-count">
+                        3
+                    </span>
+                </button>
+
+                <div class="user-avatar">
+                    {{ user_name|default:"Admin"|slice:":2"|upper }}
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        {{ user_name|default:"Admin" }}
+                    </strong>
+
+                    <span>
+                        Admin
+                    </span>
+
+                </div>
+
+                <span class="user-arrow">
+                    ⌄
+                </span>
+
+            </div>
+
+        </header> -->
+         <header class="header">
+
+
+        <div class="header-left">
+
+
+            <!-- <button
+                class="menu-btn"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button> -->
+
+
+            <div class="search">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    id="globalSearch"
+                    type="text"
+                    placeholder="Search anything..."
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div class="header-right">
+
+
+            <div
+                class="notification"
+                onclick="showNotification()"
+            >
+
+                ♧
+
+                <!-- <span class="notification-badge">
+                    3
+                </span> -->
+                <span class="dot"></span>
+
+            </div>
+
+
+
+            <div class="profile">
+
+
+                <div class="avatar">
+                    {{ user_name|slice:":2"|upper }}
+                </div>
+
+
+                <div>
+
+                    <div class="profile-name">
+                        {{ user_name }}
+                    </div>
+
+                    <div class="profile-role">
+                        {{ user_role }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="page-content">
+
+            <!-- BREADCRUMB -->
+
+            <div class="breadcrumb">
+
+                <span>Home</span>
+
+                <b>›</b>
+
+                <strong>
+                    Lead Management
+                </strong>
+
+            </div>
+
+
+            <!-- ================= HERO ================= -->
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <h1>
+                        Lead Management
+                    </h1>
+
+                    <p>
+                        Manage enquiries, track follow-ups and
+                        convert leads into admissions.
+                    </p>
+
+                </div>
+
+                <div class="hero-art">
+
+                    <div class="hero-message">
+
+                        <span>Turn</span>
+
+                        <span>Enquiries into</span>
+
+                        <strong>Opportunities</strong>
+
+                    </div>
+
+                    <div class="funnel">
+
+                        <div class="funnel-top"></div>
+
+                        <div class="funnel-bottom"></div>
+
+                    </div>
+
+                    <div class="hero-bars">
+
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= STAT CARDS ================= -->
+
+            <div class="stats-row">
+
+                <div class="stat-card total">
+
+                    <div class="stat-icon">
+                        ♟
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Leads
+                        </span>
+
+                        <strong id="totalLeads">
+                            124
+                        </strong>
+
+                        <small class="positive">
+                            ↑ 12% from last month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        ☎
+                    </div>
+
+                    <div>
+
+                        <span>
+                            New Leads
+                        </span>
+
+                        <strong id="newLeads">
+                            18
+                        </strong>
+
+                        <small class="positive">
+                            ↑ 20% from last month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card orange">
+
+                    <div class="stat-icon">
+                        ▦
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Follow-ups Today
+                        </span>
+
+                        <strong>
+                            9
+                        </strong>
+
+                        <small class="negative">
+                            3 overdue
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        ▥
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Converted
+                        </span>
+
+                        <strong id="convertedLeads">
+                            23
+                        </strong>
+
+                        <small class="positive">
+                            ↑ 15% from last month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="add-lead-button"
+                    type="button"
+                    onclick="openAddLead()">
+
+                    <span>＋</span>
+
+                    Add New Lead
+
+                </button>
+
+            </div>
+
+
+            <!-- ================= DASHBOARD BODY ================= -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- ================= LEFT ================= -->
+
+                <section class="lead-panel">
+
+
+                    <!-- STATUS TABS -->
+
+                    <div class="status-tabs">
+
+                        <button
+                            type="button"
+                            class="status-tab active"
+                            data-status="All">
+                            All Leads <b>(124)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="New">
+                            New <b>(18)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Contacted">
+                            Contacted <b>(32)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Interested">
+                            Interested <b>(26)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Demo Scheduled">
+                            Demo Scheduled <b>(18)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Follow-up">
+                            Follow-up <b>(21)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Converted">
+                            Converted <b>(23)</b>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="status-tab"
+                            data-status="Lost">
+                            Lost <b>(6)</b>
+                        </button>
+
+                    </div>
+
+
+                    <!-- TABLE TOOLBAR -->
+
+                    <div class="table-toolbar">
+
+                        <div class="table-search">
+
+                            <span>⌕</span>
+
+                            <input
+                                id="tableSearch"
+                                type="text"
+                                placeholder="Search leads by name, phone, email..."
+                            >
+
+                        </div>
+
+
+                        <div class="toolbar-actions">
+
+                            <button
+                                type="button"
+                                class="outline-button"
+                                onclick="scrollToFilters()">
+                                ⚱ Filter
+                            </button>
+
+                            <button
+                                type="button"
+                                class="outline-button"
+                                onclick="exportLeads()">
+                                ↓ Export
+                            </button>
+
+                            <select
+                                id="sortOrder"
+                                class="sort-select">
+
+                                <option>
+                                    Newest First
+                                </option>
+
+                                <option>
+                                    Name A-Z
+                                </option>
+
+                                <option>
+                                    Name Z-A
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LEAD TABLE -->
+
+                    <div class="table-container">
+
+                        <table class="lead-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        <input type="checkbox">
+                                    </th>
+
+                                    <th>#</th>
+
+                                    <th>Name</th>
+
+                                    <th>Phone</th>
+
+                                    <th>Course Interested</th>
+
+                                    <th>Status</th>
+
+                                    <th>Source</th>
+
+                                    <th>Next Follow-up</th>
+
+                                    <th>Assigned To</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="leadTableBody">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- PAGINATION -->
+
+                    <div class="table-footer">
+
+                        <span id="tableSummary">
+                            Showing 1–8 of 124 leads
+                        </span>
+
+                        <div class="pagination">
+
+                            <button type="button">
+                                ‹
+                            </button>
+
+                            <button
+                                type="button"
+                                class="current-page">
+                                1
+                            </button>
+
+                            <button type="button">
+                                2
+                            </button>
+
+                            <button type="button">
+                                3
+                            </button>
+
+                            <button type="button">
+                                4
+                            </button>
+
+                            <button type="button">
+                                5
+                            </button>
+
+                            <span>
+                                ...
+                            </span>
+
+                            <button type="button">
+                                16
+                            </button>
+
+                            <button type="button">
+                                ›
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= RIGHT COLUMN ================= -->
+
+                <aside class="right-column">
+
+
+                    <!-- FILTERS -->
+
+                    <div
+                        class="filter-panel side-card"
+                        id="filterPanel">
+
+                        <div class="side-card-header">
+
+                            <h3>
+                                Filters
+                            </h3>
+
+                            <button
+                                type="button"
+                                onclick="clearFilters()">
+                                Clear All
+                            </button>
+
+                        </div>
+
+
+                        <div class="filter-grid">
+
+
+                            <label>
+
+                                <span>
+                                    Course
+                                </span>
+
+                                <select id="courseFilter">
+
+                                    <option value="All">
+                                        All Courses
+                                    </option>
+
+                                    <option>
+                                        Data Engineering
+                                    </option>
+
+                                    <option>
+                                        Python Full Stack
+                                    </option>
+
+                                    <option>
+                                        Data Analytics
+                                    </option>
+
+                                    <option>
+                                        AWS & DevOps
+                                    </option>
+
+                                    <option>
+                                        Software Testing
+                                    </option>
+
+                                    <option>
+                                        SQL & PL/SQL
+                                    </option>
+
+                                    <option>
+                                        Power BI
+                                    </option>
+
+                                    <option>
+                                        Java Full Stack
+                                    </option>
+
+                                </select>
+
+                            </label>
+
+
+                            <label>
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <select id="statusFilter">
+
+                                    <option value="All">
+                                        All Status
+                                    </option>
+
+                                    <option>New</option>
+                                    <option>Contacted</option>
+                                    <option>Interested</option>
+                                    <option>Demo Scheduled</option>
+                                    <option>Follow-up</option>
+                                    <option>Converted</option>
+                                    <option>Lost</option>
+
+                                </select>
+
+                            </label>
+
+
+                            <label>
+
+                                <span>
+                                    Source
+                                </span>
+
+                                <select id="sourceFilter">
+
+                                    <option value="All">
+                                        All Sources
+                                    </option>
+
+                                    <option>Instagram</option>
+                                    <option>Website</option>
+                                    <option>Walk-in</option>
+                                    <option>Referral</option>
+                                    <option>Google</option>
+
+                                </select>
+
+                            </label>
+
+
+                            <label>
+
+                                <span>
+                                    Assigned To
+                                </span>
+
+                                <select id="assignedFilter">
+
+                                    <option value="All">
+                                        All Counselors
+                                    </option>
+
+                                    <option>Ramesh</option>
+                                    <option>Arun</option>
+                                    <option>Priya</option>
+
+                                </select>
+
+                            </label>
+
+
+                            <label class="date-field">
+
+                                <span>
+                                    Date Range
+                                </span>
+
+                                <div class="date-input">
+
+                                    <span>▣</span>
+
+                                    <input
+                                        type="text"
+                                        placeholder="Select date range">
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LEAD DETAILS -->
+
+                    <div
+                        class="side-card lead-details-card"
+                        id="leadDetailsCard">
+
+                        <div class="side-card-header">
+
+                            <h3>
+                                Lead Details
+                            </h3>
+
+                            <button type="button">
+                                ⋮
+                            </button>
+
+                        </div>
+
+
+                        <div class="selected-profile">
+
+                            <div
+                                class="profile-large-avatar"
+                                id="detailAvatar">
+                                PS
+                            </div>
+
+                            <div>
+
+                                <div class="profile-name-row">
+
+                                    <strong id="detailName">
+                                        Priya S
+                                    </strong>
+
+                                    <span
+                                        id="detailStatus"
+                                        class="detail-status new">
+                                        New
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-list">
+
+                            <div>
+                                <span>☎</span>
+                                <p id="detailPhone">
+                                    +91 98765 43210
+                                </p>
+                            </div>
+
+                            <div>
+                                <span>✉</span>
+                                <p id="detailEmail">
+                                    priya@gmail.com
+                                </p>
+                            </div>
+
+                            <div>
+                                <span>⌖</span>
+                                <p>
+                                    Trichy, Tamil Nadu
+                                </p>
+                            </div>
+
+                            <div>
+                                <span>▣</span>
+                                <p id="detailCourse">
+                                    Data Engineering
+                                </p>
+                            </div>
+
+                            <div>
+                                <span>♧</span>
+                                <p id="detailSource">
+                                    Instagram
+                                </p>
+                            </div>
+
+                            <div>
+                                <span>▤</span>
+                                <p>
+                                    Enquired on 20 Sep 2026
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-actions">
+
+                            <button
+                                type="button"
+                                class="follow-up-button"
+                                onclick="openFollowup()">
+                                ☎ Add Follow-up
+                            </button>
+
+                            <button
+                                type="button"
+                                class="update-status-button"
+                                onclick="toggleLeadStatus()">
+                                Update Status
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= ADD LEAD MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="addLeadModal"
+        style="display:none;">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-label">
+                        LEAD MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Add New Lead
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="closeAddLead()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="addLeadForm">
+
+                <label>
+                    Name
+
+                    <input
+                        id="leadName"
+                        required
+                        type="text"
+                        placeholder="Enter lead name">
+                </label>
+
+
+                <label>
+                    Phone
+
+                    <input
+                        id="leadPhone"
+                        required
+                        type="tel"
+                        placeholder="+91 XXXXX XXXXX">
+                </label>
+
+
+                <label>
+                    Email
+
+                    <input
+                        id="leadEmail"
+                        required
+                        type="email"
+                        placeholder="email@example.com">
+                </label>
+
+
+                <label>
+                    Course
+
+                    <select
+                        id="leadCourse"
+                        required>
+
+                        <option value="">
+                            Select Course
+                        </option>
+
+                        <option>
+                            Data Engineering
+                        </option>
+
+                        <option>
+                            Python Full Stack
+                        </option>
+
+                        <option>
+                            Data Analytics
+                        </option>
+
+                        <option>
+                            AWS & DevOps
+                        </option>
+
+                        <option>
+                            Software Testing
+                        </option>
+
+                        <option>
+                            SQL & PL/SQL
+                        </option>
+
+                        <option>
+                            Power BI
+                        </option>
+
+                        <option>
+                            Java Full Stack
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Source
+
+                    <select
+                        id="leadSource"
+                        required>
+
+                        <option value="">
+                            Select Source
+                        </option>
+
+                        <option>Instagram</option>
+                        <option>Website</option>
+                        <option>Walk-in</option>
+                        <option>Referral</option>
+                        <option>Google</option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Status
+
+                    <select id="leadStatus">
+
+                        <option>New</option>
+                        <option>Contacted</option>
+                        <option>Interested</option>
+                        <option>Demo Scheduled</option>
+                        <option>Follow-up</option>
+                        <option>Converted</option>
+                        <option>Lost</option>
+
+                    </select>
+
+                </label>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        onclick="closeAddLead()">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-button">
+                        Save Lead
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOLLOW-UP MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="followupModal"
+        style="display:none;">
+
+        <div class="modal small-modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-label">
+                        FOLLOW-UP
+                    </span>
+
+                    <h2>
+                        Track Follow-up
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="closeFollowup()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <textarea
+                id="followupText"
+                placeholder="Enter follow-up details..."
+                rows="6"></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    onclick="closeFollowup()">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="save-button"
+                    onclick="saveFollowup()">
+                    Save Follow-up
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= REPORT MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="reportModal"
+        style="display:none;">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-label">
+                        ANALYTICS
+                    </span>
+
+                    <h2>
+                        Lead Report
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="closeReport()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="report-grid">
+
+                <div>
+                    <span>Total Leads</span>
+                    <strong id="reportTotal">124</strong>
+                </div>
+
+                <div>
+                    <span>New</span>
+                    <strong id="reportNew">18</strong>
+                </div>
+
+                <div>
+                    <span>Interested</span>
+                    <strong id="reportInterested">26</strong>
+                </div>
+
+                <div>
+                    <span>Converted</span>
+                    <strong id="reportConverted">23</strong>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="save-button"
+                onclick="closeReport()">
+                Close Report
+            </button>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- Logout Confirmation Popup -->
+<div id="logoutModal" class="logout-modal" hidden>
+    <div class="logout-box" role="dialog"
+         aria-modal="true" aria-labelledby="logoutTitle">
+        <h2 id="logoutTitle">Confirm Logout</h2>
+        <p>Are you sure you want to log out?</p>
+
+        <div class="logout-actions">
+            <button type="button" id="cancelLogout">Cancel</button>
+            <button type="button" id="confirmLogout">
+                Confirm Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Django static JavaScript -->
+
+<script>
+    window.USER_NAME = "{{ user_name|escapejs }}";
+    window.USER_ROLE = "{{ user_role|escapejs }}";
+</script>
+
+<script src="{% static 'authentication/js/lead_management.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+    const logoutModal = document.getElementById("logoutModal");
+    const cancelLogout = document.getElementById("cancelLogout");
+    const confirmLogout = document.getElementById("confirmLogout");
+
+    if (!logoutLink || !logoutModal || !cancelLogout || !confirmLogout) {
+        return;
+    }
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        logoutModal.hidden = false;
+        cancelLogout.focus();
+    });
+
+    cancelLogout.addEventListener("click", function () {
+        logoutModal.hidden = true;
+        logoutLink.focus();
+    });
+
+    logoutModal.addEventListener("click", function (event) {
+        if (event.target === logoutModal) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+
+    confirmLogout.addEventListener("click", function () {
+        window.location.href = "{% url 'logout' %}";
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !logoutModal.hidden) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>

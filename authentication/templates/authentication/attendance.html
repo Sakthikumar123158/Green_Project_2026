@@ -1,0 +1,1154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Greens Technology - Attendance</title>
+
+    <link rel="stylesheet" href="{% static 'authentication/css/attendance.css' %}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+   <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            Greens <span>Technology</span>
+        </div>
+
+        <div class="nav-title">Main Menu</div>
+
+        
+<nav class="nav">
+
+    <a href="{% url 'home' %}">
+        <span class="icon">⌂</span> Home
+    </a>
+
+    <a href="{% url 'quiz' %}">
+        <span class="icon">✓</span> Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}" class="active">
+        <span class="icon">◷</span> Attendance
+    </a>
+
+    <a href="{% url 'resume' %}">
+        <span class="icon">▤</span> Resume
+    </a>
+
+    
+    <a href="{% url 'lead_management' %}">
+        <span class="icon">▣</span> Lead Management
+    </a>
+    
+
+</nav>
+
+
+
+        <div class="nav-title account-title">
+            Account
+        </div>
+
+        <nav class="nav">
+
+            <a href="#" onclick="go('Profile')">
+                <span class="icon">●</span>
+                Profile
+            </a>
+
+            <a href="#" onclick="go('Settings')">
+                <span class="icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+        <div class="bottom-nav nav">
+
+            <a href="{% url 'logout' %}" id="logoutLink">
+    <span class="icon">⇥</span>
+    Logout
+</a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="header-left">
+
+                <button class="menu-btn" onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div class="search">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <div
+                    class="notification"
+                    onclick="showNotification()"
+                >
+                    ♧
+                    <span class="dot"></span>
+                </div>
+
+
+                <div class="profile">
+
+                    <div class="avatar" id="avatar">
+    {{ user_name|slice:":2"|upper }}
+</div>
+
+                    <div>
+
+                        <div
+                            class="profile-name"
+                            id="profileName"
+                        >
+                            {{ user_name }}
+                        </div>
+
+                        <div
+                            class="profile-role"
+                            id="profileRole"
+                        >
+                            {{ user_role|title }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ================================================= -->
+        <!--                  STUDENT DASHBOARD                 -->
+        <!-- ================================================= -->
+
+        <section
+            id="studentDashboard"
+            class="content"
+        >
+
+            <h1 class="page-title">
+                Attendance
+            </h1>
+
+            <p class="subtitle">
+                Track your attendance and class participation.
+            </p>
+
+
+            <!-- STUDENT CARDS -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Overall Attendance
+                            </div>
+
+                            <div class="card-value green">
+                                87%
+                            </div>
+
+                            <div class="card-note">
+                                Good attendance
+                            </div>
+
+                        </div>
+
+                        <div class="card-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Classes Attended
+                            </div>
+
+                            <div class="card-value blue">
+                                26 / 30
+                            </div>
+
+                            <div class="card-note">
+                                Classes attended
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="card-icon"
+                            style="background:#eff6ff"
+                        >
+                            ▣
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Classes Missed
+                            </div>
+
+                            <div class="card-value orange">
+                                4
+                            </div>
+
+                            <div class="card-note">
+                                This month
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="card-icon"
+                            style="background:#fff7ed"
+                        >
+                            !
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOW ATTENDANCE -->
+
+            <div
+                id="studentWarning"
+                class="attendance-warning good"
+            >
+                ✓ Your attendance is above 75%.
+            </div>
+
+
+            <!-- TODAY ATTENDANCE -->
+
+            <section class="today-attendance">
+
+                <div>
+
+                    <h2>
+                        Today's Attendance
+                    </h2>
+
+                    <p id="todayDate"></p>
+
+                    <small>
+                        Present / Absent can be marked only before 11:00 AM.
+                    </small>
+
+                </div>
+
+
+                <div class="attendance-actions">
+
+                    <button
+                        class="present-button"
+                        onclick="markAttendance('Present')"
+                    >
+                        ✓ Present
+                    </button>
+
+                    <button
+                        class="absent-button"
+                        onclick="markAttendance('Absent')"
+                    >
+                        ✕ Absent
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="attendanceMessage"
+                    class="attendance-message"
+                ></div>
+
+            </section>
+
+
+            <!-- CALENDAR + BREAKDOWN -->
+
+            <div class="grid">
+
+                <!-- CALENDAR -->
+
+                <section class="section">
+
+                    <div class="section-head">
+
+                        <div class="section-title">
+                            Attendance Calendar
+                        </div>
+
+                        <div class="month">
+
+                            <button onclick="changeMonth(-1)">
+                                ‹
+                            </button>
+
+                            <div
+                                class="month-name"
+                                id="monthName"
+                            >
+                                September 2026
+                            </div>
+
+                            <button onclick="changeMonth(1)">
+                                ›
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="calendar"
+                        id="calendar"
+                    ></div>
+
+
+                    <div class="legend">
+
+                        <span>
+                            <i class="legend-present"></i>
+                            Present
+                        </span>
+
+                        <span>
+                            <i class="legend-absent"></i>
+                            Absent
+                        </span>
+
+                        <span>
+                            <i class="legend-leave"></i>
+                            Leave
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- BREAKDOWN -->
+
+                <section class="section">
+
+                    <div class="section-head">
+
+                        <div class="section-title">
+                            Attendance Breakdown
+                        </div>
+
+                    </div>
+
+
+                    <div class="breakdown-item">
+
+                        <div class="breakdown-top">
+
+                            <span class="subject">
+                                Python
+                            </span>
+
+                            <span class="percent">
+                                92%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+                            <div
+                                class="fill green-fill"
+                                style="width:92%"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="breakdown-item">
+
+                        <div class="breakdown-top">
+
+                            <span class="subject">
+                                Java
+                            </span>
+
+                            <span class="percent">
+                                88%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+                            <div
+                                class="fill blue-fill"
+                                style="width:88%"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="breakdown-item">
+
+                        <div class="breakdown-top">
+
+                            <span class="subject">
+                                Database
+                            </span>
+
+                            <span class="percent">
+                                85%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+                            <div
+                                class="fill orange-fill"
+                                style="width:85%"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="breakdown-item">
+
+                        <div class="breakdown-top">
+
+                            <span class="subject">
+                                Web Development
+                            </span>
+
+                            <span class="percent">
+                                82%
+                            </span>
+
+                        </div>
+
+                        <div class="bar">
+                            <div
+                                class="fill red-fill"
+                                style="width:82%"
+                            ></div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- RECENT CLASSES -->
+
+            <section class="table-section">
+
+                <div class="table-head">
+
+                    <div class="section-title">
+                        Recent Classes
+                    </div>
+
+                </div>
+
+
+                <table id="studentTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Subject</th>
+
+                            <th>Trainer</th>
+
+                            <th>Time</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>24 Sep 2026</td>
+
+                            <td>Python</td>
+
+                            <td>Greens Technology</td>
+
+                            <td>10:00 AM</td>
+
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>23 Sep 2026</td>
+
+                            <td>Java</td>
+
+                            <td>Greens Technology</td>
+
+                            <td>10:00 AM</td>
+
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>22 Sep 2026</td>
+
+                            <td>Database</td>
+
+                            <td>Greens Technology</td>
+
+                            <td>10:00 AM</td>
+
+                            <td>
+                                <span class="status absent">
+                                    Absent
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>21 Sep 2026</td>
+
+                            <td>Web Development</td>
+
+                            <td>Greens Technology</td>
+
+                            <td>10:00 AM</td>
+
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>19 Sep 2026</td>
+
+                            <td>Python</td>
+
+                            <td>Greens Technology</td>
+
+                            <td>10:00 AM</td>
+
+                            <td>
+                                <span class="status leave">
+                                    Leave
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!--                    ADMIN DASHBOARD                 -->
+        <!-- ================================================= -->
+
+        <section
+            id="adminDashboard"
+            class="content hidden"
+        >
+
+            <h1 class="page-title">
+                Admin Attendance Dashboard
+            </h1>
+
+            <p class="subtitle">
+                View student attendance records and attendance reports.
+            </p>
+
+
+            <!-- ADMIN FILTER -->
+
+            <section class="admin-filter">
+
+                <h2>
+                    Attendance Filter
+                </h2>
+
+                <div class="filter-grid">
+
+                    <div class="filter-item">
+
+                        <label>
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="adminDate"
+                        >
+
+                    </div>
+
+
+                    <div class="filter-item">
+
+                        <label>
+                            Class
+                        </label>
+
+                        <select id="adminClass">
+
+                            <option>
+                                B.Tech IT
+                            </option>
+
+                            <option>
+                                B.Tech CSE
+                            </option>
+
+                            <option>
+                                BCA
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-item">
+
+                        <label>
+                            Section
+                        </label>
+
+                        <select id="adminSection">
+
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-item">
+
+                        <label>
+                            Subject
+                        </label>
+
+                        <select id="adminSubject">
+
+                            <option>Python</option>
+                            <option>Java</option>
+                            <option>Database</option>
+                            <option>Web Development</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        class="view-button"
+                        onclick="viewAdminAttendance()"
+                    >
+                        View Attendance
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ADMIN SUMMARY -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Total Students
+                            </div>
+
+                            <div class="card-value blue">
+                                50
+                            </div>
+
+                            <div class="card-note">
+                                Selected class
+                            </div>
+
+                        </div>
+
+                        <div class="card-icon">
+                            👨‍🎓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Present
+                            </div>
+
+                            <div class="card-value green">
+                                42
+                            </div>
+
+                            <div class="card-note">
+                                Students present
+                            </div>
+
+                        </div>
+
+                        <div class="card-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-label">
+                                Absent
+                            </div>
+
+                            <div class="card-value orange">
+                                8
+                            </div>
+
+                            <div class="card-note">
+                                Students absent
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="card-icon"
+                            style="background:#fff7ed"
+                        >
+                            !
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN ATTENDANCE TABLE -->
+
+            <section class="table-section">
+
+                <div class="table-head admin-table-head">
+
+                    <div>
+
+                        <div class="section-title">
+                            Student Attendance
+                        </div>
+
+                        <p id="selectedDetails">
+                            Select filters and click View Attendance.
+                        </p>
+
+                    </div>
+
+
+                    <input
+                        type="text"
+                        id="adminSearch"
+                        placeholder="Search student..."
+                        onkeyup="searchAdminStudents()"
+                    >
+
+                </div>
+
+
+                <div class="table-scroll">
+
+                    <table id="adminTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Student ID</th>
+
+                                <th>Student Name</th>
+
+                                <th>Class</th>
+
+                                <th>Section</th>
+
+                                <th>Present</th>
+
+                                <th>Absent</th>
+
+                                <th>Overall %</th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>STU001</td>
+
+                                <td>Arun Kumar</td>
+
+                                <td>B.Tech IT</td>
+
+                                <td>A</td>
+
+                                <td>26</td>
+
+                                <td>4</td>
+
+                                <td>87%</td>
+
+                                <td>
+                                    <span class="status present">
+                                        Good
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>STU002</td>
+
+                                <td>Priya</td>
+
+                                <td>B.Tech IT</td>
+
+                                <td>A</td>
+
+                                <td>24</td>
+
+                                <td>6</td>
+
+                                <td>80%</td>
+
+                                <td>
+                                    <span class="status present">
+                                        Good
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="low-row">
+
+                                <td>STU003</td>
+
+                                <td>Rahul</td>
+
+                                <td>B.Tech IT</td>
+
+                                <td>A</td>
+
+                                <td>20</td>
+
+                                <td>10</td>
+
+                                <td>66%</td>
+
+                                <td>
+                                    <span class="status absent">
+                                        Low
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>STU004</td>
+
+                                <td>Divya</td>
+
+                                <td>B.Tech IT</td>
+
+                                <td>A</td>
+
+                                <td>27</td>
+
+                                <td>3</td>
+
+                                <td>90%</td>
+
+                                <td>
+                                    <span class="status present">
+                                        Good
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="low-row">
+
+                                <td>STU005</td>
+
+                                <td>Karthik</td>
+
+                                <td>B.Tech IT</td>
+
+                                <td>A</td>
+
+                                <td>21</td>
+
+                                <td>9</td>
+
+                                <td>70%</td>
+
+                                <td>
+                                    <span class="status absent">
+                                        Low
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- LOW ATTENDANCE -->
+
+            <div class="admin-warning">
+
+                <h3>
+                    ⚠ Low Attendance Alert
+                </h3>
+
+                <p>
+                    Students below 75% attendance require attention.
+                </p>
+
+                <ul>
+
+                    <li>
+                        Rahul - 66%
+                    </li>
+
+                    <li>
+                        Karthik - 70%
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- Logout Confirmation Popup -->
+<div id="logoutModal" class="logout-modal" hidden>
+    <div class="logout-box" role="dialog"
+         aria-modal="true" aria-labelledby="logoutTitle">
+        <h2 id="logoutTitle">Confirm Logout</h2>
+        <p>Are you sure you want to log out?</p>
+
+        <div class="logout-actions">
+            <button type="button" id="cancelLogout">Cancel</button>
+            <button type="button" id="confirmLogout">
+                Confirm Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    window.USER_NAME = "{{ user_name|escapejs }}";
+    window.USER_ROLE = "{{ user_role|escapejs }}";
+</script>
+
+<script src="{% static 'authentication/js/attendance.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+    const logoutModal = document.getElementById("logoutModal");
+    const cancelLogout = document.getElementById("cancelLogout");
+    const confirmLogout = document.getElementById("confirmLogout");
+
+    if (!logoutLink || !logoutModal || !cancelLogout || !confirmLogout) {
+        return;
+    }
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        logoutModal.hidden = false;
+        cancelLogout.focus();
+    });
+
+    cancelLogout.addEventListener("click", function () {
+        logoutModal.hidden = true;
+        logoutLink.focus();
+    });
+
+    logoutModal.addEventListener("click", function (event) {
+        if (event.target === logoutModal) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+
+    confirmLogout.addEventListener("click", function () {
+        window.location.href = "{% url 'logout' %}";
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !logoutModal.hidden) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>

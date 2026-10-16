@@ -1,0 +1,381 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#087442"><meta name="description" content="Greens Technology quiz and assessment module">
+  <title>Quiz &amp; Assessment | Greens Technology</title>
+  <link rel="stylesheet" href="{% static 'authentication/css/quizsep29.css' %}">
+</head>
+<body>
+<div class="shell">
+  <!-- <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+     <div class="logo">Greens <span>Technology</span></div>
+     <div class="nav-title">
+      Main Menu
+     </div>
+    
+
+
+
+
+ <nav class="side-nav">
+
+    <a href="{% url 'home' %}">
+        <span>⌂</span> Home
+    </a>
+
+    <a href="{% url 'quiz' %}" class="selected">
+        <span>✓</span> Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}">
+        <span>◷</span> Attendance
+    </a>
+
+    <a href="{% url 'resume' %}">
+        <span>▤</span> Resume
+    </a>
+
+    {% if request.session.user_role|lower == "admin" %}
+    <a href="{% url 'lead_management' %}">
+        <span>▣</span> Lead Management
+    </a>
+    {% endif %}
+
+    <div class="nav-title" style="margin-top:24px;">Account</div>
+
+    <a href="#profile" data-placeholder="Profile">
+        <span>●</span> Profile
+    </a>
+
+    <a href="#settings" data-placeholder="Settings">
+        <span>⚙</span> Settings
+    </a>
+
+    <a href="#logout" id="logoutLink">
+        <span>⇥</span> Logout
+    </a>
+
+</nav> 
+
+
+
+
+
+<!-- <div class="nav-title" style="margin-top:24px">
+    Account
+</div>
+
+<nav class="nav">
+    <a href="#profile" data-placeholder="Profile">
+        <span class="icon">●</span>
+        Profile
+    </a>
+
+    <a href="#settings" data-placeholder="Settings">
+        <span class="icon">⚙</span>
+        Settings
+    </a>
+</nav>
+
+<div class="bottom-nav nav">
+    <a href="#logout" id="logoutLink">
+        <span class="icon">⇥</span>
+        Logout
+    </a>
+</div> -->
+
+
+  <!-- </aside> --> -->
+
+  
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            Greens <span>Technology</span>
+        </div>
+
+
+        <div class="nav-title">
+            Main Menu
+        </div>
+
+
+
+<nav class="nav">
+
+    <a href="{% url 'home' %}">
+        <span class="icon">⌂</span>
+        Home
+    </a>
+
+    <a href="{% url 'quiz' %}" class="active">
+        <span class="icon">✓</span>
+        Quiz
+    </a>
+
+    <a href="{% url 'attendance' %}">
+        <span class="icon">◷</span>
+        Attendance
+    </a>
+
+    <a href="{% url 'resume' %}">
+        <span class="icon">▤</span>
+        Resume
+    </a>
+
+    
+    <a href="{% url 'lead_management' %}">
+        <span class="icon">▣</span>
+        Lead Management
+    </a>
+    
+
+</nav>
+
+
+
+        <div
+            class="nav-title"
+            style="margin-top:24px"
+        >
+            Account
+        </div>
+
+
+        <nav class="nav">
+
+            <a
+                href="#"
+                onclick="go('Profile',event)"
+            >
+                <span class="icon">●</span>
+                Profile
+            </a>
+
+
+            <a
+                href="#"
+                onclick="go('Settings',event)"
+            >
+                <span class="icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+        <div class="bottom-nav nav">
+
+            <a href="#" id="logoutLink">
+    <span class="icon">⇥</span>
+    Logout
+</a>
+
+        </div>
+
+    </aside>
+  <main class="main">
+    <!-- <header class="topbar">
+      <button id="menuToggle" class="icon-button mobile-only" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <label class="searchbox"><span aria-hidden="true">⌕</span><input id="globalSearch" type="search" placeholder="Search quizzes, topics, or students" aria-label="Search quizzes, topics, or students"></label>
+      <div class="top-actions"><button class="icon-button notification" id="notificationBtn" aria-label="Notifications">♧<i>3</i></button>
+        {% if user_role == "admin" %}
+<label class="role-select">
+    <span class="sr-only">View as</span>
+</label>
+{% endif %}
+        <div class="user-chip">
+    <span class="avatar" id="avatar">
+        {{ user_name|default:"User"|slice:":2"|upper }}
+    </span>
+    <span>
+       <b id="userName">{{ user_name }}</b>
+        <small id="userRole">{{ user_role|title }}</small>
+    </span>
+    <span class="chevron">⌄</span>
+</div>
+      </div>
+    </header> -->
+      <header class="header">
+
+
+        <div class="header-left">
+
+
+            <div class="search">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search anything..."
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div class="header-right">
+
+
+            <div
+                class="notification"
+                onclick="showNotification()"
+            >
+
+                ♧
+
+                <!-- <span class="notification-badge">
+                    3
+                </span> -->
+                <span class="dot"></span>
+            </div>
+
+
+
+            <div class="profile">
+
+
+                <div class="avatar">
+                    {{ user_name|slice:":2"|upper }}
+                </div>
+
+
+                <div>
+
+                    <div class="profile-name">
+                        {{ user_name }}
+                    </div>
+
+                    <div class="profile-role">
+                        {{ user_role }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+    <div class="page">
+      <section class="hero"><div>
+       <p class="breadcrumb">
+    <a href="{% url 'home' %}">Home</a>
+    <span>›</span>Quiz
+</p>
+<h1>Quiz &amp; Assessment</h1><p class="hero-copy">Test your knowledge, track your progress and strengthen your skills.</p></div><div class="hero-motto">Learn. Practice.<br><strong>Grow.</strong></div><div class="hero-decoration" aria-hidden="true">✓</div></section>
+            <section id="studentView" class="role-view">
+        <div class="tabs" role="tablist" aria-label="Student quiz sections">
+          <button class="tab active" role="tab" aria-selected="true" data-panel="availablePanel">Available Quizzes</button><button class="tab" role="tab" aria-selected="false" data-panel="attemptsPanel">My Attempts</button><button class="tab" role="tab" aria-selected="false" data-panel="performancePanel">Performance</button><button class="tab" role="tab" aria-selected="false" data-panel="topicsPanel">Topic-wise Analysis</button>
+        </div>
+        <section class="panel active" id="availablePanel" role="tabpanel">
+          <article class="quiz-card card"><span class="quiz-icon" aria-hidden="true">&lt;/&gt;</span><div class="quiz-description"><h2>Frontend Development Assessment</h2><div class="quiz-facts"><span>▤ 20 Questions</span><span>◷ 20 Minutes</span><span>▥ Beginner to Intermediate</span><span class="tag">Frontend</span></div></div><button class="button primary start-button" data-quiz="frontend">Start Quiz <span>→</span></button></article>
+          <article class="quiz-card card" style="margin-top:12px"><span class="quiz-icon" aria-hidden="true">Py</span><div class="quiz-description"><h2>Python Backend Assessment</h2><div class="quiz-facts"><span>▤ 20 Questions</span><span>◷ 20 Minutes</span><span>▥ Beginner Level</span><span class="tag">Backend</span></div></div><button class="button primary start-button" data-quiz="python-backend">Start Quiz <span>→</span></button></article>
+          <div class="instructions card"><h2>Before you begin</h2><ul><li>20 questions will be randomly selected from the selected topic’s bank of 100 unique questions.</li><li>You have 20 minutes. The quiz submits automatically when time runs out.</li><li>You can move between questions and mark questions to review.</li><li>Submit manually at any time. Your result is saved when you submit.</li></ul><button class="button outline" id="instructionsStart">Review instructions &amp; start Frontend quiz</button></div>
+          <div class="feature-note"><span>✦</span><span><b>One attempt at a time</b><small>Your active quiz is restored if you refresh this page.</small></span></div>
+        </section>
+        <section class="panel" id="attemptsPanel" role="tabpanel"><div class="section-heading"><h2>My Quiz Attempts</h2><select class="field-select" id="myAttemptFilter" aria-label="Filter attempts"><option value="all">All attempts</option><option value="pass">Passed</option><option value="fail">Needs improvement</option></select></div><div class="card table-scroll"><table><thead><tr><th>Quiz</th><th>Submitted</th><th>Score</th><th>Time taken</th><th>Result</th></tr></thead><tbody id="myAttemptsBody"></tbody></table></div></section>
+        <section class="panel" id="performancePanel" role="tabpanel"><div class="section-heading"><h2>Your Performance</h2></div><div class="stats-grid" id="studentStats"></div><div class="card chart-card"><h3>Recent attempts</h3><div id="studentPerformance" class="performance-bars"></div></div></section>
+        <section class="panel" id="topicsPanel" role="tabpanel"><div class="section-heading"><h2>Topic-wise Analysis</h2><span class="muted">Based on your submitted attempts</span></div><div class="card table-scroll"><table><thead><tr><th>Topic</th><th>Questions answered</th><th>Correct</th><th>Accuracy</th><th>Recommendation</th></tr></thead><tbody id="topicRows"></tbody></table></div></section>
+      </section>
+      <section id="adminView" class="role-view hidden">
+        <div class="section-heading admin-heading"><div><p class="breadcrumb">Home <span>›</span> Quiz <span>›</span> Administration</p><h2>Student Quiz Results</h2><p class="muted">Review assessment performance and individual submissions.</p></div><button class="button outline" id="exportCsv">↓ Export CSV</button></div>
+        <div class="stats-grid" id="adminStats"></div>
+        <div class="filters card"><label class="filter-search">Search students<input id="adminSearch" type="search" placeholder="Name, ID, or quiz"></label><label>Quiz<select id="quizFilter"><option value="all">All quizzes</option><option value="Frontend Development Assessment">Frontend Development</option><option value="Python Backend Assessment">Python Backend</option></select></label><label>Status<select id="statusFilter"><option value="all">All statuses</option><option value="pass">Passed</option><option value="fail">Needs improvement</option></select></label><label>From date<input id="dateFrom" type="date"></label><label>To date<input id="dateTo" type="date"></label><button id="clearFilters" class="button text-button">Clear filters</button></div>
+        <div class="card table-scroll"><table><thead><tr><th>Student</th><th>Quiz</th><th>Submitted</th><th>Score</th><th>Percentage</th><th>Time taken</th><th>Status</th><th>Details</th></tr></thead><tbody id="adminRows"></tbody></table><p class="table-foot" id="resultCount"></p></div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close dialog">×</button><div id="modalContent"></div></section></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Logout Confirmation Popup -->
+<div id="logoutModal" class="logout-modal" hidden>
+    <div class="logout-box" role="dialog"
+         aria-modal="true" aria-labelledby="logoutTitle">
+        <h2 id="logoutTitle">Confirm Logout</h2>
+        <p>Are you sure you want to log out?</p>
+
+        <div class="logout-actions">
+            <button type="button" id="cancelLogout">Cancel</button>
+            <button type="button" id="confirmLogout">
+                Confirm Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.STUDENT = {
+        name: "{{ request.session.user_name|default:'User'|escapejs }}",
+        id: "{{ request.session.user_id|default:''|escapejs }}"
+    };
+</script>
+
+<script>
+    window.USER_NAME = "{{ user_name|escapejs }}";
+    window.USER_ROLE = "{{ user_role|escapejs }}";
+</script>
+
+<script src="{% static 'authentication/js/question-bank.js' %}"></script>
+
+<script src="{% static 'authentication/js/python-question-bank.js' %}"></script>
+
+<script src="{% static 'authentication/js/quiz.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+    const logoutModal = document.getElementById("logoutModal");
+    const cancelLogout = document.getElementById("cancelLogout");
+    const confirmLogout = document.getElementById("confirmLogout");
+
+    if (!logoutLink || !logoutModal || !cancelLogout || !confirmLogout) {
+        return;
+    }
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        logoutModal.hidden = false;
+        cancelLogout.focus();
+    });
+
+    cancelLogout.addEventListener("click", function () {
+        logoutModal.hidden = true;
+        logoutLink.focus();
+    });
+
+    logoutModal.addEventListener("click", function (event) {
+        if (event.target === logoutModal) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+
+    confirmLogout.addEventListener("click", function () {
+        window.location.href = "{% url 'logout' %}";
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !logoutModal.hidden) {
+            logoutModal.hidden = true;
+            logoutLink.focus();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
